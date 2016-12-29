@@ -48,3 +48,54 @@ var disqus_url = disqus_blogger_current_url;
                 load_disqus()
         }
     };
+var iframe = document.getElementById(&#39;site&#39;);
+function resizeIframe(value) { iframe.style.width = value; updateOutput(); }
+function loadURL() { iframe.setAttribute(&#39;src&#39;, document.getElementById(&#39;urlInput&#39;).value); document.getElementById(&#39;urlInput&#39;).blur(); updateOutput(); }
+function updateOutput() { document.getElementById(&#39;output&#39;).innerHTML = iframe.offsetWidth + &#39; x &#39; + iframe.offsetHeight; }
+function readURL(input) {
+if (input &amp;&amp; input[0]) {
+var reader = new FileReader();
+reader.onload = function (e) {
+$(&quot;#result .base64&quot;).val( e.target.result )
+$(&quot;#result&quot;).slideDown();
+}
+reader.readAsDataURL(input[0]);
+}
+}
+var I = document.getElementById(&quot;I&quot;);
+var B = document.getElementById(&quot;B&quot;);
+var O = document.getElementById(&quot;O&quot;);
+B.addEventListener(&quot;click&quot;, function() {
+var Output = minifyCSS(I.value);
+O.value = Output;
+}, false);
+function HTMLcompressor(){
+ var allHTML = document.getElementById(&quot;oldCode&quot;).value;
+ var headHTML = &quot;&quot;;
+ var removeThis = &quot;&quot;;
+ var headstatus = document.getElementById(&quot;headstatus&quot;).checked;
+ if(headstatus != true){
+  //Compress all the things!
+  allHTML = allHTML.replace(/(\r\n|\n|\r|\t)/gm,&quot;&quot;);
+  allHTML = allHTML.replace(/\s+/g,&quot; &quot;);
+ }else{
+  //Don&#39;t compress the head
+  allHTML = allHTML.replace(new RegExp(&quot;&lt;/HEAD&quot;,&quot;gi&quot;),&#39;&lt;/head&#39;);
+  allHTML = allHTML.replace(new RegExp(&quot;&lt;/head &quot;,&quot;gi&quot;),&#39;&lt;/head&#39;);
+  
+  var bodySplit = &quot;&lt;/head&gt;&quot;; 
+  var i = allHTML.indexOf(bodySplit) != -1;
+  if(i == true){
+   var bodySplit = &quot;&lt;/head&gt;&quot;; 
+   tempo = allHTML.split(new RegExp(bodySplit,&#39;i&#39;));
+   headHTML = tempo[0];
+   allHTML = tempo[1];
+  }else{
+   bodySplit = &quot;&quot;; 
+  }
+  allHTML = allHTML.replace(/(\r\n|\n|\r|\t)/gm,&quot;&quot;);
+  allHTML = allHTML.replace(/\s+/g,&quot; &quot;);
+  allHTML = headHTML + bodySplit + &#39;\n&#39; + allHTML;
+ }
+ document.getElementById(&quot;newCode&quot;).value = allHTML;
+}
