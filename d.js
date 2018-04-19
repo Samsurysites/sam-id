@@ -1,4 +1,4 @@
-var disqus_shortname="virlyzid";
+var disqus_shortname="virlyz-id";
 var disqus_url = disqus_blogger_current_url;
 
 (function () {
